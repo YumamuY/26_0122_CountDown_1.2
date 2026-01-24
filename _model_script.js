@@ -256,12 +256,12 @@ function updateMountain() {
 // ===== Mini game: arrange 4 photos chronologically =====
 // Replace these URLs with your own photos later.
 const ALL_PHOTOS = [
-  { id: "photo1", url: "https://via.placeholder.com/300x200/ffb3c6/ffffff?text=Trip+1", caption: "Trip 1", date: "2023-01-01" },
-  { id: "photo2", url: "https://via.placeholder.com/300x200/fcc2ff/ffffff?text=Trip+2", caption: "Trip 2", date: "2023-05-10" },
-  { id: "photo3", url: "https://via.placeholder.com/300x200/bde0fe/ffffff?text=Trip+3", caption: "Trip 3", date: "2023-08-20" },
-  { id: "photo4", url: "https://via.placeholder.com/300x200/a3c4f3/ffffff?text=Trip+4", caption: "Trip 4", date: "2023-11-02" },
-  { id: "photo5", url: "https://via.placeholder.com/300x200/caf0f8/ffffff?text=Date+Night", caption: "Date night", date: "2024-02-14" },
-  { id: "photo6", url: "https://via.placeholder.com/300x200/ffd6a5/ffffff?text=Summer", caption: "Summer", date: "2024-07-01" },
+  { id: "photo1", url: "images/pic_Babi01.png", caption: "Babi 1", date: "2023-01-01" },
+  { id: "photo2", url: "images/pic_Babi02.png", caption: "Babi 2", date: "2023-05-10" },
+  { id: "photo3", url: "images/pic_Babi03.png", caption: "Babi 3", date: "2023-08-20" },
+  { id: "photo4", url: "images/pic_Babi04.png", caption: "Babi Trip 1", date: "2023-11-02" },
+  { id: "photo5", url: "images/pic_Babi05.png", caption: "Babi night", date: "2024-02-14" },
+  { id: "photo6", url: "images/pic_Babi06.png", caption: "Summer Babi", date: "2024-07-01" },
 ];
 
 function pickRandomPhotos() {
