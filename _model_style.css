@@ -1,0 +1,377 @@
+/* Base reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at top left, #ffe5f2, #ffeef9 40%, #fff 70%);
+  color: #2a1b2f;
+}
+
+/* Background decorations */
+.bg-decor {
+  position: fixed;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  filter: blur(40px);
+  opacity: 0.55;
+  z-index: -1;
+}
+
+.bg-decor--top {
+  top: -80px;
+  left: -40px;
+  background: #ffbcd4;
+}
+
+.bg-decor--bottom {
+  bottom: -80px;
+  right: -40px;
+  background: #ffd6e8;
+}
+
+/* Main container */
+.container {
+  width: 100%;
+  max-width: 520px;
+  padding: 24px 16px 32px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.title {
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.subtitle {
+  margin: 4px 0 2px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #c3347c;
+}
+
+.tagline {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #7c627d;
+}
+
+/* Cards */
+.card {
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 18px;
+  padding: 18px 18px 20px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+  margin-bottom: 14px;
+  backdrop-filter: blur(10px);
+}
+
+.card--light {
+  background: rgba(255, 252, 255, 0.98);
+}
+
+.card--tiny-text {
+  padding: 10px 14px;
+}
+
+.card-title {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+/* Status text */
+.status-text {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #7c627d;
+  margin-bottom: 12px;
+}
+
+/* Countdown */
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.time-box {
+  background: #fff5fb;
+  padding: 10px 6px;
+  border-radius: 14px;
+  border: 1px solid #ffd0e6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.time-value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.time-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: #9b708d;
+}
+
+/* Mountain section */
+.mountain-section {
+  margin-top: 12px;
+}
+
+.mountain-title {
+  margin: 0 0 6px;
+  font-size: 0.95rem;
+  color: #5b3d5e;
+}
+
+.mountain-scene {
+  position: relative;
+  height: 180px;
+  margin-top: 4px;
+}
+
+.mountain {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 160px solid #ffcede;
+  transform: translateX(-50%);
+}
+
+.mountain-top-heart {
+  position: absolute;
+  left: 50%;
+  bottom: 160px;
+  transform: translate(-50%, 10%);
+  font-size: 1.4rem;
+}
+
+.character {
+  position: absolute;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  transform: translate(-50%, 0);
+  transition: left 0.35s ease-out, bottom 0.35s ease-out;
+  user-select: none;
+}
+
+.character--left { left: 15%; }
+.character--right { left: 85%; }
+
+.mountain-caption {
+  margin: 6px 0 0;
+  font-size: 0.82rem;
+  text-align: center;
+  color: #8d6a8c;
+}
+
+/* Controls */
+.controls {
+  margin-top: 4px;
+}
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.field-label {
+  font-size: 0.8rem;
+  color: #5d3c63;
+}
+
+.field-input {
+  padding: 7px 9px;
+  font-size: 0.85rem;
+  border-radius: 999px;
+  border: 1px solid #e7c3dd;
+  outline: none;
+  background: #fff;
+}
+
+.field-input:focus {
+  border-color: #f17ab0;
+  box-shadow: 0 0 0 2px rgba(241, 122, 176, 0.22);
+}
+
+/* Buttons */
+.btn-primary,
+.btn-secondary {
+  border-radius: 999px;
+  border: none;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff6fa8, #f85b94);
+  color: white;
+  box-shadow: 0 8px 16px rgba(248, 91, 148, 0.35);
+}
+
+.btn-secondary {
+  background: #fff6fb;
+  color: #c3347c;
+  border: 1px solid #ffcce3;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.btn-primary:hover,
+.btn-secondary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.03);
+}
+
+.btn-primary:active,
+.btn-secondary:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 9px rgba(0, 0, 0, 0.15);
+}
+
+/* Hint & tiny text */
+.hint {
+  margin: 4px 2px 0;
+  font-size: 0.8rem;
+  color: #8d6a8c;
+}
+
+.tiny-text {
+  margin: 0;
+  font-size: 0.75rem;
+  color: #9b7b9c;
+  text-align: center;
+}
+
+/* Mini game */
+.photo-game {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.photo-card {
+  background: #fff5fb;
+  border-radius: 12px;
+  border: 1px solid #ffd0e6;
+  overflow: hidden;
+  cursor: grab;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.photo-card.dragging {
+  opacity: 0.6;
+  cursor: grabbing;
+  transform: scale(0.98);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+}
+
+.photo-card img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  display: block;
+}
+
+.photo-caption {
+  font-size: 0.7rem;
+  padding: 4px 6px 6px;
+  text-align: center;
+  color: #7a5b7c;
+}
+
+.photo-game-controls {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.photo-game-result {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+  .container {
+    padding: 18px 10px 24px;
+  }
+
+  .title {
+    font-size: 1.7rem;
+  }
+
+  .countdown {
+    gap: 6px;
+  }
+
+  .time-value {
+    font-size: 1.25rem;
+  }
+
+  .controls-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-primary {
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .photo-game {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .photo-card img {
+    height: 90px;
+  }
+}

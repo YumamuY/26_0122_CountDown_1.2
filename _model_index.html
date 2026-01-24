@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LDC Countdown 💕</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Cute, clean font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="_model_style.css">
+</head>
+<body>
+  <div class="bg-decor bg-decor--top"></div>
+  <div class="bg-decor bg-decor--bottom"></div>
+
+  <main class="container">
+    <header class="header">
+      <h1 class="title">LDC Countdown</h1>
+      <p class="subtitle">Yuma 💛 Angel</p>
+      <p class="tagline">Counting down until we meet again</p>
+    </header>
+
+    <!-- Countdown + mountain -->
+    <section class="card">
+      <h2 class="card-title">Time left until our next reunion</h2>
+
+      <div id="statusText" class="status-text">
+        Please choose our next reunion date 💌
+      </div>
+
+      <div id="countdown" class="countdown">
+        <div class="time-box">
+          <span id="days" class="time-value">0</span>
+          <span class="time-label">Days</span>
+        </div>
+        <div class="time-box">
+          <span id="hours" class="time-value">00</span>
+          <span class="time-label">Hours</span>
+        </div>
+        <div class="time-box">
+          <span id="minutes" class="time-value">00</span>
+          <span class="time-label">Minutes</span>
+        </div>
+        <div class="time-box">
+          <span id="seconds" class="time-value">00</span>
+          <span class="time-label">Seconds</span>
+        </div>
+      </div>
+
+      <div class="mountain-section">
+        <h3 class="mountain-title">Our mountain progress</h3>
+        <div class="mountain-scene" id="mountainScene">
+          <div class="mountain"></div>
+          <div class="mountain-top-heart">🤍</div>
+          <div class="character character--left" id="penguin" aria-label="penguin">🐧</div>
+          <div class="character character--right" id="piggy" aria-label="piggy">🐷</div>
+        </div>
+        <p id="mountainCaption" class="mountain-caption">
+          The last 30 days before we meet = climbing this mountain together 🏔️
+        </p>
+      </div>
+    </section>
+
+    <!-- Settings: date, time, timezone, password -->
+    <section class="card card--light">
+      <h2 class="card-title">Set our special date</h2>
+
+      <div class="controls">
+        <div class="controls-grid">
+          <div class="field">
+            <label for="targetDate" class="field-label">Date</label>
+            <input type="date" id="targetDate" class="field-input">
+          </div>
+
+          <div class="field">
+            <label for="targetTime" class="field-label">Time</label>
+            <input type="time" id="targetTime" class="field-input">
+          </div>
+
+          <div class="field">
+            <label for="timezoneSelect" class="field-label">Timezone</label>
+            <select id="timezoneSelect" class="field-input">
+              <option value="+00:00">UTC</option>
+              <option value="+01:00">Sweden (UTC+01:00)</option>
+              <option value="+02:00">Sweden summer (UTC+02:00)</option>
+              <option value="+09:00">Japan (UTC+09:00)</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="saveDateBtn" type="button" class="btn-primary">
+          Save / change date
+        </button>
+
+        <p class="hint">
+          🔐 The date is protected with a password. The first time you save, you’ll be asked to set one.<br>
+          🔁 All data is saved only in this browser (localStorage).
+        </p>
+      </div>
+    </section>
+
+    <!-- Mini game: arrange photos in chronological order -->
+    <section class="card">
+      <h2 class="card-title">Mini memory game</h2>
+      <p class="hint">
+        Every time you open the page, 4 photos appear. Drag them so they go from oldest → newest.
+      </p>
+
+      <div id="photoGame" class="photo-game" aria-label="photo sorting game">
+        <!-- Filled by JS -->
+      </div>
+
+      <div class="photo-game-controls">
+        <button id="shufflePhotosBtn" type="button" class="btn-secondary">New photos</button>
+        <button id="checkOrderBtn" type="button" class="btn-primary">Check order</button>
+      </div>
+
+      <p id="photoGameResult" class="photo-game-result"></p>
+      <p class="tiny-text">
+        🔧 Replace the image URLs in <code>script.js</code> with your own photos when you’re ready.
+      </p>
+    </section>
+
+    <section class="card card--tiny-text">
+      <p class="tiny-text">
+        Tip: You can host this on GitHub Pages or Netlify and share the link with your partner ✨
+      </p>
+    </section>
+  </main>
+
+  <script src="_model_script.js" defer></script>
+</body>
+</html>
