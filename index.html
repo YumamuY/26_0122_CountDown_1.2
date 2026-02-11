@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <title>LDC countdown💕</title>
+    <title>LDC Coutndown</title>
     <meta name="viewport" content="width=device-width, intial-scale=1.0">
 
-    <!-- Load cute fonts-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Cute, clean font-->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
 
-    <link rel="stylesheet" href="style.css">
+     <link rel="stylesheet" href="css.style">
 </head>
 
 <body>
@@ -22,15 +21,14 @@
         <header class="header">
             <h1 class="title">LDC Countdown</h1>
             <p class="subtitle">Yuma🩷Angel</p>
-            <p class="tagline">Counting down until we meet again</p>
+            <p class="tagline">Counting down until we meet again...</p>
         </header>
 
         <section class="card">
             <h2 class="card-title">Time left until our next reunion!</h2>
+            <div class="status-text" id="statusText">Please choose our next reunion date💌</div>
 
-            <div class="status-text" id="statusText">Please choose our next reuinon date💌</div>
-
-            <div class="countdwon" id="countdown">
+            <div class="countdown" id="countdown">
                 <div class="time-box">
                     <span class="time-value" id="days">0</span>
                     <span class="time-label">Days</span>
@@ -50,22 +48,82 @@
             </div>
 
             <div class="mountain-section">
-                <h3 class="mountain-title">Our Mountain Progress</h3>
+                <h3 class="mountain-title">Our Mountain Progress⛰️</h3>
                 <div class="mountain-scene" id="mountainScene">
                     <div class="mountain"></div>
-                    <div class="mountain-top-heart">🩷</div>
+                    <div class="mountain-top-heart">❤️</div>
                     <div class="character character--left" id="penguin" aria-label="penguin">🐧</div>
                     <div class="character character--right" id="piggy" aria-label="piggy">🐷</div>
                 </div>
                 <p class="mountain-caption" id="mountainCaption">
-                    The last 30 days before we meet = climbing this mountain together ⛰️
+                    The last 30 days before we meet = climbing this mountain together!
                 </p>
             </div>
         </section>
 
+        <section class="card card--light">
+            <h2 class="card-title">Set Our Special Date!</h2>
 
+            <div class="controls">
+                <div class="controls-grid">
+                    <div class="field">
+                        <label for="targetDate" class="field-label">Date</label>
+                        <input type="date" class="field-input" id="targetDate">
+                    </div>
+
+                    <div class="field">
+                        <label for="targetTime" class="field-label">Time</label>
+                        <input type="time" class="field-input" id="targetTime">
+                    </div>
+                    
+                    <div class="field">
+                        <label for="timezoneSelect" class="field-label">Timezone</label>
+                        <select class="field-input" id="timezoneSelect">
+                            <option value="+00:00">UTC</option>
+                            <option value="+01:00">Sweden (UTC+01:00)</option>
+                            <option value="+02:00">Sweden summer(UTC +02:00)</option>
+                            <option value="+09:00">Japan (UTC+09:00)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn-primary" id="saveDateBtn">Save / Change Date</button>
+
+                <p class="hint">
+                    🔐 The date is protected with a password. The first time you save, you'll be asked to set one.<br>
+                    🔁 All data is saved only in this browser (localStorage)
+                </p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2 class="card-title">Mini Memory Game🖼️</h2>
+            <p class="hint">
+                Every time you open the page, 4 photos appear! Drag and rearrange them so they go from oldest → newest.
+            </p>
+
+            <div class="photo-game" id="photoGame" aria-label="photo sorting game">
+                <!-- Filled by JS -->
+            </div>
+
+            <div class="photo-game-controls">
+                <button class="btn-secondary" id="shuffulPhotoBtn">New photos</button>
+                <button class="btn-primary" id="checkOrderBtn">Check Order!</button>
+            </div>
+
+            <p class="photo-game-result" id="photoGameResult"></p>
+            <p class="tiny-text">
+                🔧 Replace the image URLs in the file (or <code>script.js</code>) with your chosen photos!
+            </p>
+        </section>
+
+        <section class="card card--tiny-text">
+            <p class="tiny-text">
+                Tip: You can host this on Github pages or Netlify and share the link with your partner!
+            </p>
+        </section>
     </main>
 
+    <script src="script.js" defer></script>
 </body>
-
 </html>
