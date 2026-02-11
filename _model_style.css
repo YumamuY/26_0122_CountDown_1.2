@@ -368,7 +368,7 @@ body {
   }
 
   .controls-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .btn-primary {
@@ -381,6 +381,6 @@ body {
   }
 
   .photo-card img {
-    height: 90px;
+    height: 100px;
   }
 }
