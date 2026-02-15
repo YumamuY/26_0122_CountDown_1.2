@@ -70,7 +70,7 @@ function loadSavedData() {
   else targetTimeEl.value = "12:00";
 
   if (tzOffset) timezoneSelectEl.value = tzOffset;
-  else timezoneSelectEl.value = "+09:00"; // sensible default for Sweden
+  else timezoneSelectEl.value = "+09:00"; // sensible default for Tokyo
 }
 
 // ===== Password flow =====
@@ -216,6 +216,7 @@ function setCharactersOnMountain(progress) {
   const baseYpx = 0;
   const topYpx = sceneHeight * 0.78; // near the summit, but not too high
 
+  // linear interpolation
   const penguinLeft = leftBaseX + (topX - leftBaseX) * progress;
   const piggyLeft = rightBaseX + (topX - rightBaseX) * progress;
   const bottomPx = baseYpx + (topYpx - baseYpx) * progress;
@@ -254,7 +255,6 @@ function updateMountain() {
 }
 
 // ===== Mini game: arrange 4 photos chronologically =====
-// Replace these URLs with your own photos later.
 const ALL_PHOTOS = [
   { id: "photo1", url: "images/pic_Babi01.png", caption: "Babi 1", date: "2023-01-01" },
   { id: "photo2", url: "images/pic_Babi02.png", caption: "Babi 2", date: "2023-05-10" },
@@ -270,6 +270,7 @@ function pickRandomPhotos() {
 }
 
 function renderPhotoGame() {
+  // Reset everything insdie photo game container & photog game result section
   photoGameContainer.innerHTML = "";
   photoGameResultEl.textContent = "";
 
