@@ -1,30 +1,35 @@
-// What is forEach()?
-// forEach() is a method for arrays that lets you run a function once for each element in the array.
+const piggy = document.getElementById("piggy");
 
-const numbers = [1, 2, 3];
-numbers.forEach((num) => {
-    console.log(num);
-})
+piggy.addEventListener("dragstart", onDragStart);
+piggy.addEventListener("dragover", onDragOver);
+piggy.addEventListener("drop", onDrop);
+piggy.addEventListener("dragend", onDragEnd);
 
-const japanese = ["い", "ろ", "は", "に", "ほ", "へ", "と"];
-japanese.forEach((character) => {
-    console.log(character);
-})
+let draggedTargetId = null;
+function onDragStart(e) {
+    const target = e.currentTarget;
+    draggedTargetId = target.dataset.id;
+    target.classList.add("dragging");
 
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", draggedTargetId);
+    console.log("drag start");
+}
 
-// What is .dataset in HTML?
-// In HTML, you can create custom attributes using data-*.
-// .dataset is a way to attach invisible metadate to a DOM element
-const yuma = document.getElementById("yuma");
-const angel = document.getElementById("angel");
-yuma.dataset.id = angel.id
-console.log(yuma.dataset.id);
+function onDragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+    console.log("drag over");
+}
 
+function onDrop(e) {
+    e.preventDefault();
+    console.log("drop");
+}
 
-// What is ?
+function onDragEnd(e){
+    e.currentTarget.classList.remove("dragging");
+    draggedTargetId = null;
+}
+// dataTransfer = a tiny backpack attached to the dragged object
 
-// What is ?
-
-// What is ?
-
-// What is ?
