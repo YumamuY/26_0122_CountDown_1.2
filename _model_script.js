@@ -117,6 +117,7 @@ function saveDate() {
     return;
   }
 
+  // Check password (if something went wrong, cancel the process)
   if (!requirePasswordOrSetup()) return;
 
   // Build UTC date based on chosen timezone offset
