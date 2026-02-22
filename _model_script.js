@@ -302,6 +302,8 @@ function renderPhotoGame() {
   });
 }
 
+// ==== DnD logic ====
+
 function onDragStart(e) {
   const card = e.currentTarget;
   draggedCardId = card.dataset.id;
