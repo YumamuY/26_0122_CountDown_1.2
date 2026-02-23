@@ -19,7 +19,7 @@ export default [
     files: ["**/*.js"],
     languageOptions: {
       ecmaVersion: "latest",
-      sourceType: "script", // change to "module" if you use <script type="module">
+      sourceType: "module", // change to "module" if you use <script type="module">
       globals: globals.browser,
     },
     rules: {

@@ -5,6 +5,9 @@ const STORAGE_LOCAL_TIME = "ldcLocalTime";
 const STORAGE_TZ = "ldcTimezoneOffset";
 const STORAGE_PASSWORD = "ldcPassword"; 
 
+
+
+
 // ==== Constants ====
 const MOUNTAIN_DAYS = 30;
 
@@ -389,6 +392,3 @@ shufflePhotoGame();
 
 // Re-render the mountain scene if window size changes
 window.addEventListener("resize", () => updateMountain());
-
-
-
