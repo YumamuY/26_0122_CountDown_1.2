@@ -1,5 +1,5 @@
 // ts-check (put @ at the head )
-
+"use strict";
 
 // ==== Keys for localStorage ====
 const STORAGE_TARGET_UTC = "ldcTargetDateUTC";
@@ -148,9 +148,6 @@ function saveDate() {
 
     updateAll();
 }
-
-
-
 
 // ==== Countdown logic ====
 function updateCountdown() {
@@ -370,16 +367,12 @@ function onDragEnd(e) {
 
 
 // ==== Update all====
-
 function updateAll() {
     updateCountdown();
     updateMountain();
 }
 
 // ==== Event listeners ====
-console.log(saveBtnEl);
-console.log(shufflePhotosBtn);
-console.log(checkOrderBtn);
 saveBtnEl.addEventListener("click", saveDate);
 shufflePhotosBtn.addEventListener("click", shufflePhotoGame);
 checkOrderBtn.addEventListener("click", checkPhotoOrder);
