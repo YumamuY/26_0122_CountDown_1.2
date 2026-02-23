@@ -2,6 +2,7 @@
 const STORAGE_TARGET_UTC = "ldcTargetDateUTC";
 const STORAGE_LOCAL_DATE = "ldcLocalDate";
 const STORAGE_LOCAL_TIME = "ldcLocalTime";
+const STORAGE_TZ = "ldcTimezoneOffset";
 const STORAGE_PASSWORD = "ldcPassword"; 
 
 // ==== Constants ====
@@ -10,7 +11,8 @@ const MOUNTAIN_DAYS = 30;
 // === DOM elements ====
 const daysEl = document.getElementById("days");
 const hoursEl = document.getElementById("hours");
-const minutesEl = document.getElementById("seconds");
+const minutesEl = document.getElementById("minutes");
+const secondsEl = document.getElementById("seconds");
 const statusTextEl = document.getElementById("statusText");
 
 const targetDateEl = document.getElementById("targetDate");
@@ -30,7 +32,7 @@ const photoGameResultEl = document.getElementById("photoGameResult");
 
 // ==== State ====
 let targetDateUTC = null;
-let hasReachedYet = false;
+let hasReachedZero = false;
 
 let currentPhotoSet = [];
 let draggedCardId = null;
@@ -102,6 +104,8 @@ function requirePasswordOrSetup() {
     return true;
 }
 
+
+
 // ==== Save date (with timezone handling) ====
 function saveDate() {
     const dateStr = targetDateEl.value; // "YYYY-MM-DD"
@@ -109,7 +113,7 @@ function saveDate() {
     const tzOffsetStr = timezoneSelectEl.value;
     
     if (!dateStr) {
-        statusTextEl.textCotnent = "Please select a target date!"
+        statusTextEl.textContnent = "Please select a target date!"
         return;
     }
 
@@ -133,13 +137,16 @@ function saveDate() {
     // Reset
     hasReachedZero = false;
 
-    statusTexztEl.textContent = "Saved! Now counting down until the target date!";
+    statusTextEl.textContent = "Saved! Now counting down until the target date!";
     setTimeout (() => {
         if (!hasReachedZero) statusTextEl.textContent = "Time left until our next reunion";
     }, 2000);
 
     updateAll();
 }
+
+
+
 
 // ==== Countdown logic ====
 function updateCount() {
@@ -366,6 +373,9 @@ function updateAll() {
 }
 
 // ==== Event listeners ====
+console.log(saveBtnEl);
+console.log(shufflePhotosBtn);
+console.log(checkOrderBtn);
 saveBtnEl.addEventListener("click", saveDate);
 shufflePhotosBtn.addEventListener("click", shufflePhotoGame);
 checkOrderBtn.addEventListener("click", checkPhotoOrder);
