@@ -1,11 +1,12 @@
+// ts-check (put @ at the head )
+
+
 // ==== Keys for localStorage ====
 const STORAGE_TARGET_UTC = "ldcTargetDateUTC";
 const STORAGE_LOCAL_DATE = "ldcLocalDate";
 const STORAGE_LOCAL_TIME = "ldcLocalTime";
 const STORAGE_TZ = "ldcTimezoneOffset";
 const STORAGE_PASSWORD = "ldcPassword"; 
-
-
 
 
 // ==== Constants ====
@@ -46,7 +47,7 @@ function parseOffsetToMinutes(offsetString) {
     return sign * (h * 60 + m);
 }
 
-// ==== Helpers: padding, updating the coutdown display  ====
+// ==== Helpers: padding, updating the countdown display  ====
 function pad2(n) {
     return String(n).padStart(2, "0");
 }
@@ -99,7 +100,7 @@ function requirePasswordOrSetup() {
         return false;
     }
     if (newPass.trim() === "") {
-        statusTextEl.textContent = "Password cannot be emptycro❌";
+        statusTextEl.textContent = "Password cannot be empty❌";
         return false;
     }
 
@@ -116,7 +117,7 @@ function saveDate() {
     const tzOffsetStr = timezoneSelectEl.value;
     
     if (!dateStr) {
-        statusTextEl.textContnent = "Please select a target date!"
+        statusTextEl.textContent = "Please select a target date!"
         return;
     }
 
@@ -152,7 +153,7 @@ function saveDate() {
 
 
 // ==== Countdown logic ====
-function updateCount() {
+function updateCountdown() {
     if (!targetDateUTC) {
         setCountdownDisplay( { days: 0, hours: 0, minutes: 0, seconds: 0 });
         statusTextEl.textContent = "Please choose our next reunion date!";
@@ -173,10 +174,10 @@ function updateCount() {
         return;
     }
 
-    const totalSeconds = Math.floor(diffMs * 1000);
+    const totalSeconds = Math.floor(diffMs / 1000);
     const days = Math.floor(totalSeconds / (24 * 60 * 60));
     const hours = Math.floor((totalSeconds % (24 * 60 * 60)) / (60 * 60));
-    const minutes = Math.floor((totalSeconds % 60 * 60) / 60);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
 
     setCountdownDisplay({ days, hours, minutes, seconds });
@@ -197,7 +198,7 @@ function updateCount() {
 function getRemainingDaysPrecise() {
     if (!targetDateUTC) return null;
     const now = new Date();
-    return (now - targetDateUTC) / (1000 * 60 * 60 * 24);
+    return (targetDateUTC - now) / (1000 * 60 * 60 * 24);
 }
 
 function getMountainProgress() {
@@ -218,7 +219,7 @@ function setCharactersOnMountain(progress) {
     const baseYpx = 0;
     const topYpx = mountainSceneEl.getBoundingClientRect().height;
 
-    // Linaer interpolation
+    // Linear interpolation
     const penguinLeft = leftBaseX + (topX - leftBaseX) * progress;
     const piggyLeft = rightBaseX + (topX - rightBaseX) * progress;
     const bottomPx = baseYpx + (topYpx - baseYpx) * progress;
@@ -234,7 +235,7 @@ function updateMountain() {
     const progress = hasReachedZero ? 1 : getMountainProgress();
     setCharactersOnMountain(progress);
 
-    if (!targetDataUTC) {
+    if (!targetDateUTC) {
         mountainCaptionEl.textContent = "Set a date and we'll start climbing together!🐧🐷"
         return;
     }
@@ -268,11 +269,11 @@ function pickRandomPhotos() {
     return shuffled.slice(0, 4);
 }
 
-// shuffle the currevvvvnt photo set
+// shuffle the current photo set
 function renderPhotoGame() {
     // Reset photo game container & result
     photoGameContainer.innerHTML = "";
-    photoGameResultEl.innerHTML = "";
+    photoGameResultEl.textContent = "";
 
     // Add a new set of photo
     currentPhotoSet.forEach((photo) => {
@@ -285,7 +286,7 @@ function renderPhotoGame() {
         img.src = photo.url;
         img.alt = photo.caption;
 
-        const cap = document.createeElement("img");
+        const cap = document.createElement("div");
         cap.className = "photo-caption";
         cap.textContent = photo.caption;
 
@@ -303,13 +304,13 @@ function renderPhotoGame() {
 }
 
 function shufflePhotoGame() {
-    currentPhotoset = pickRandomPhotos();
+    currentPhotoSet = pickRandomPhotos();
     renderPhotoGame();
 }
 // Check the photo order
 function checkPhotoOrder() {
     const cards = Array.from(photoGameContainer.children);
-    if (cards.lenth === 0) return;
+    if (cards.length === 0) return;
 
     const idToPhoto = Object.fromEntries(currentPhotoSet.map((p) => [p.id, p]));
     const currentOrder = cards.map((card) => idToPhoto[card.dataset.id]);
