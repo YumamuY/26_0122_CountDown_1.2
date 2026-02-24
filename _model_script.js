@@ -271,7 +271,7 @@ function pickRandomPhotos() {
 }
 
 function renderPhotoGame() {
-  // Reset everything insdie photo game container & photo game result section
+  // Reset everything inside photo game container & photo game result section
   photoGameContainer.innerHTML = "";
   photoGameResultEl.textContent = "";
 
