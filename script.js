@@ -207,7 +207,7 @@ function updateCountdown() {
     const minutes = Math.floor((totalSeconds % SECONDS_PER_HOUR) / SECONDS_PER_MINUTES);
     const seconds = totalSeconds % SECONDS_PER_MINUTES;
 
-    setCountdownDisplay( { days, hours, minutes, seconds});
+    setCountdownDisplay( { days, hours, minutes, seconds} );
 
     // Dynamically change the status text
     if (days === 0 && hours === 0 && minutes < 60) {
@@ -225,7 +225,64 @@ function updateCountdown() {
 /* =========================
     Mountain Progress
 =========================*/
+function getRemainingDaysPrecise() {
+    if (!targetDateUTC) return null;
+    const now = new Date();
+    return (targetDateUTC - now) / (1000 * 60 * 60 * 24);
+}
 
+function getMountainProgress() {
+    const remainingDays = getRemainingDaysPrecise();
+    if (remainingDays === null) return 0;
+
+    if (remainingDays >= MOUNTAIN_DAYS) return 0;
+    if (remainingDays <= 0) return 1;
+
+    return 1 - remainingDays / MOUNTAIN_DAYS;
+}
+
+function setCharactersOnMountain(progress) {
+    const leftBaseX = 15;
+    const rightBaseX = 85;
+    const topX = 50;
+
+    const sceneHeight = mountainSceneEl.getBoundingClientRect().height;
+    const baseYpx = 0;
+    const topYpx = sceneHeight * 0.78;
+
+    const penguinLeft = leftBaseX + (topX - leftBaseX) * progress;
+    const piggyLeft = rightBaseX + (topX - rightBaseX) * progress;
+    const bottomPx = baseYpx + (topYpx - baseYpx) * progress;
+
+    penguinEl.style.left = `${piggyLeft}%`;
+    piggyEl.style.left = `${penguinLeft}%`;
+    penguinEl.style.bottom = `${bottomPx}px`;
+    piggyEl.style.bottom = `${bottomPx}px`;
+}
+
+function updateMountain() {
+    const progress = hasReachedZero ? 1 : getMountainProgress();
+    setCharactersOnMountain();
+
+    if (!targetDateUTC) {
+        mountainCaptionEl.textContent = "Set a goal date and we'll start climbing together!";
+        return;
+    }
+
+    if (hasReachedZero || progress >= 1) {
+        mountainCaptionEl.textContent = "You made it to the top together!";
+        return;
+    }
+
+    if (progress <= 0) {
+        mountainCaptionEl.textContent = `More than ${MOUNTAIN_DAYS} days left...`;
+    } else if (progress < 0.5) {
+        mountainCaptionEl.textContent = "You two started climbing...";
+    } else {
+        mountainCaptionEl.textContent = "You're high up the mountain now... almost at the top!";
+    }
+
+}
 
 
 
