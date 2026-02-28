@@ -108,7 +108,7 @@ function loadSavedData() {
     Password flow
 =========================*/
 function requirePasswordOrSetup() {
-    const existingPass = localStorage.getItem("STORAGE_PASSWORD");
+    const existingPass = localStorage.getItem(STORAGE_PASSWORD);
 
     // If password exists, require it
     if (existingPass) {
@@ -281,19 +281,146 @@ function updateMountain() {
     } else {
         mountainCaptionEl.textContent = "You're high up the mountain now... almost at the top!";
     }
-
 }
-
-
 
 /* =========================
     Mini photo game
 =========================*/
+const ALL_PHOTOS = [
+    { id: "photo1", url: "images/pic_Babi01.png", caption: "Babi 1", date: "2025-01-01"},
+    { id: "photo2", url: "images/pic_Babi02.png", caption: "Babi 2", date: "2025-05-10"},
+    { id: "photo3", url: "images/pic_Babi03.png", caption: "Babi 3", date: "2025-08-20"},
+    { id: "photo4", url: "images/pic_Babi04.png", caption: "Babi Trip 1", date: "2025-11-02"},
+    { id: "photo5", url: "images/pic_Babi05.png", caption: "Babi Trip 2", date: "2025-12-24"},
+    { id: "photo6", url: "images/pic_Babi06.png", caption: "Babi Trip 3", date: "2026-02-14"},
+];
+
+// Fisher-Yates shuffle (unbiased)
+function shuffleArray(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+function pickRandomPhotos() {
+    return shuffleArray(ALL_PHOTOS).slice(0, 4);
+}
+
+function renderPhotoGame() {
+    photoGameContainer.innerHTML = "";
+    photoGameResultEl.textContent = "";
+
+    currentPhotoSet.forEach((photo) => {
+        const card = document.createElement("div");
+        card.className = "photo-card";
+        card.draggable = true;
+        card.dataset.id = photo.id;
+
+        const img = document.createElement("img");
+        img.src = photo.url;
+        img.alt = photo.caption;
+
+        const cap = document.createElement("div");
+        cap.className = "photo-caption";
+        cap.textContent = photo.caption;
+
+        card.appendChild(img);
+        card.appendChild(cap);
+
+        card.addEventListener("dragstart", onDragStart);
+        card.addEventListener("dragover", onDragOver);
+        card.addEventListener("drop", onDrop);
+        card.addEventListener("dragend", onDragEnd);
+
+        photoGameContainer.appendChild(card);
+    });
+}
+
+function shufflePhotoGame() {
+    currentPhotoSet = pickRandomPhotos();
+    renderPhotoGame();
+}
+
+function checkPhotoOrder() {
+    const cards = Array.from(photoGameContainer.children);
+    if (cards.length === 0) return;
+
+    const idToPhoto = Object.fromEntries(currentPhotoSet.map((p) => [p.id, p]));
+    const currentOrder = cards.map((card) => idToPhoto[card.dataset.id]);
+
+    const correctOrder = [...currentPhotoSet].sort((a, b) => a.date.localeCompare(b.date));
+    const isCorrect = currentOrder.every((p, i) => p.id === correctOrder[i].id);
+
+    if (isCorrect) {
+    photoGameResultEl.textContent = "Perfect! You remembered everything in order:)";
+    photoGameResultEl.style.color = "#c3347c";
+    } else {
+    photoGameResultEl.textContent = "Not quite... rearrange and try again!";
+    photoGameResultEl.style.color = "#aa4d7f";
+}
+}
 
 /* =========================
     Drag and Drop handlers
 =========================*/
+function onDragStart(e) {
+    const card = e.currentTarget;
+    draggedCardId = card.dataset.id;
+    card.classList.add("dragging");
+
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("text/plain", draggedCardId);
+}
+
+function onDragOver(e) {
+    e.preventDefault(); // required to allow dropping
+    e.dataTransfer.dropEffect = "move";
+}
+
+function onDrop(e) {
+    e.preventDefault();
+
+    const targetCard = e.currentTarget;
+    const targetId = targetCard.dataset.id;
+
+    const draggedId = e.dataTransfer.getData("text/plain") || draggedCardId;
+    if (!draggedId || draggedId === targetId) return;
+
+    const draggedEl = photoGameContainer.querySelector(`[data-id="${draggedId}"]`);
+    if (!draggedEl) return;
+
+    const children = Array.from(photoGameContainer.children);
+    const targetIndex = children.findIndex((el) => el.dataset.id === targetId);
+
+    if (targetIndex >= 0) {
+        photoGameContainer.insertBefore(draggedEl, children[targetIndex]);
+    }
+}
+
+function onDragEnd(e) {
+    e.currentTarget.classList.remove("dragging");
+    draggedCardId = null;
+}
 
 /* =========================
     Update loop + events
 =========================*/
+function updateAll() {
+    updateCountdown();
+    updateMountain();
+}
+
+saveBtnEl.addEventListener("click", saveDate);
+shufflePhotosBtn.addEventListener("click", shufflePhotoGame);
+checkOrderBtn.addEventListener("click", checkPhotoOrder);
+
+loadSavedData();
+updateAll();
+setInterval(updateAll, 1000);
+
+shufflePhotoGame();
+window.addEventListener("resize", updateMountain());
+
