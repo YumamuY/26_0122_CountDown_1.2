@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>photo game experiment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Cute, clean font-->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
+
+     <link rel="stylesheet" href="dnd_style.css">
+</head>
+
+<body>
+    <div class="bg-decor bg-decor--top"></div>
+    <div class="bg-decor bg-decor--bottom"></div>
+
+    <main class="container">
+        <header class="header">
+            <h1 class="title">photo game experiment</h1>
+            <p class="subtitle">test</p>
+            <p class="tagline">testing...</p>
+        </header>
+
+
+        <section class="card">
+            <h2 class="card-title">Mini photo Game🖼️</h2>
+            <p class="hint">
+                test
+            </p>
+
+            <div class="photo-game" id="photoGame" aria-label="photo sorting game">
+
+                <!-- Filled by JS -->
+                 <div class="photo-card">
+                    <img src="images/pic_Babi01.png" alt="Babi01">
+                    <span class="photo-caption">caption</span>
+                </div>
+                <div class="photo-card">
+                    <img src="images/pic_Babi01.png" alt="Babi01">
+                    <span class="photo-caption">caption</span>
+                </div>                <div class="photo-card">
+                    <img src="images/pic_Babi01.png" alt="Babi01">
+                    <span class="photo-caption">caption</span>
+                </div>                <div class="photo-card">
+                    <img src="images/pic_Babi01.png" alt="Babi01">
+                    <span class="photo-caption">caption</span>
+                </div>
+                
+            </div>
+
+            <div class="photo-game-controls">
+                <button class="btn-secondary" id="shufflePhotosBtn">New photos</button>
+                <button class="btn-primary" id="checkOrderBtn">Check Order!</button>
+            </div>
+
+            <p class="photo-game-result" id="photoGameResult">(photo game result)</p>
+            <p class="tiny-text">
+                <code>test</code>
+            </p>
+        </section>
+
+    </main>
+
+    <script type="module" src="dnd_script.js" defer></script>
+</body>
+</html>

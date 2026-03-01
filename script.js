@@ -63,7 +63,6 @@ let targetDateUTC = null;
 let hasReachedZero = false;
 
 let currentPhotoSet = [];
-let draggedCardId = null;
 
 /* =========================
     Helpers
@@ -322,6 +321,7 @@ function renderPhotoGame() {
         const img = document.createElement("img");
         img.src = photo.url;
         img.alt = photo.caption;
+        img.draggable = false;
 
         const cap = document.createElement("div");
         cap.className = "photo-caption";
@@ -330,10 +330,7 @@ function renderPhotoGame() {
         card.appendChild(img);
         card.appendChild(cap);
 
-        card.addEventListener("dragstart", onDragStart);
-        card.addEventListener("dragover", onDragOver);
-        card.addEventListener("drop", onDrop);
-        card.addEventListener("dragend", onDragEnd);
+
 
         photoGameContainer.appendChild(card);
     });
@@ -366,44 +363,114 @@ function checkPhotoOrder() {
 /* =========================
     Drag and Drop handlers
 =========================*/
-function onDragStart(e) {
-    const card = e.currentTarget;
-    draggedCardId = card.dataset.id;
+
+/* =========================
+   Reliable Smooth Sortable DnD (HTML5)
+   - Keeps 4 slots: 3 cards + 1 placeholder
+   - Placeholder position uses left/right of hovered card center
+   - Avoids drag-cancel by hiding AFTER drag starts (rAF)
+========================= */
+
+let draggedEl = null;
+
+const placeholderEl = document.createElement("div");
+placeholderEl.className = "photo-card photo-placeholder";
+placeholderEl.draggable = false;
+
+function enableSmoothDnD(container) {
+  container.addEventListener("dragstart", (e) => {
+    const card = e.target.closest(".photo-card");
+    if (!card || card === placeholderEl || card.classList.contains("photo-placeholder")) return;
+
+    draggedEl = card;
+
+    // Add visual drag style (optional)
     card.classList.add("dragging");
 
+    // Make placeholder match card size
+    const rect = card.getBoundingClientRect();
+    placeholderEl.style.height = `${rect.height}px`;
+
+    // Put placeholder right after dragged element (so layout keeps 4 slots)
+    container.insertBefore(placeholderEl, card.nextElementSibling);
+
+    // Make the drag preview look like the card (important before we hide it)
+    // If you hide the element later, the preview still shows nicely
     e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData("text/plain", draggedCardId);
-}
+    e.dataTransfer.setData("text/plain", card.dataset.id || "");
+    e.dataTransfer.setDragImage(card, rect.width / 2, rect.height / 2);
 
-function onDragOver(e) {
-    e.preventDefault(); // required to allow dropping
-    e.dataTransfer.dropEffect = "move";
-}
+    // CRITICAL: hide only AFTER drag has started (next frame)
+    // If you hide immediately in dragstart, some browsers cancel the drag.
+    requestAnimationFrame(() => {
+      if (draggedEl) draggedEl.classList.add("is-hidden");
+    });
+  });
 
-function onDrop(e) {
-    e.preventDefault();
-
-    const targetCard = e.currentTarget;
-    const targetId = targetCard.dataset.id;
-
-    const draggedId = e.dataTransfer.getData("text/plain") || draggedCardId;
-    if (!draggedId || draggedId === targetId) return;
-
-    const draggedEl = photoGameContainer.querySelector(`[data-id="${draggedId}"]`);
+  container.addEventListener("dragover", (e) => {
+    e.preventDefault(); // required to allow drop
     if (!draggedEl) return;
 
-    const children = Array.from(photoGameContainer.children);
-    const targetIndex = children.findIndex((el) => el.dataset.id === targetId);
+    const x = e.clientX;
+    const y = e.clientY;
 
-    if (targetIndex >= 0) {
-        photoGameContainer.insertBefore(draggedEl, children[targetIndex]);
+    // Find element under cursor
+    const underPointer = document.elementFromPoint(x, y);
+    const hoveredCard = underPointer?.closest(".photo-card");
+
+    // If not hovering a real card (or hovering placeholder/dragged hidden),
+    // place placeholder at end.
+    if (
+      !hoveredCard ||
+      hoveredCard === placeholderEl ||
+      hoveredCard.classList.contains("photo-placeholder") ||
+      hoveredCard.classList.contains("is-hidden")
+    ) {
+      container.appendChild(placeholderEl);
+      return;
     }
+
+    // Decide before/after based on left/right of hovered card's center
+    const rect = hoveredCard.getBoundingClientRect();
+    const midpointX = rect.left + rect.width / 2;
+
+    if (x < midpointX) {
+      container.insertBefore(placeholderEl, hoveredCard);
+    } else {
+      container.insertBefore(placeholderEl, hoveredCard.nextElementSibling);
+    }
+  });
+
+  container.addEventListener("drop", (e) => {
+    e.preventDefault();
+    if (!draggedEl) return;
+
+    // Put dragged element where placeholder is
+    container.insertBefore(draggedEl, placeholderEl);
+
+    // Cleanup placeholder
+    placeholderEl.remove();
+
+    // Unhide dragged element and remove styles
+    draggedEl.classList.remove("is-hidden");
+    draggedEl.classList.remove("dragging");
+
+    draggedEl = null;
+  });
+
+  container.addEventListener("dragend", () => {
+    // dragend fires even if dropped outside container
+    if (draggedEl) {
+      draggedEl.classList.remove("is-hidden");
+      draggedEl.classList.remove("dragging");
+    }
+    draggedEl = null;
+
+    if (placeholderEl.parentNode) placeholderEl.remove();
+  });
 }
 
-function onDragEnd(e) {
-    e.currentTarget.classList.remove("dragging");
-    draggedCardId = null;
-}
+
 
 /* =========================
     Update loop + events
@@ -421,6 +488,7 @@ loadSavedData();
 updateAll();
 setInterval(updateAll, 1000);
 
+enableSmoothDnD(photoGameContainer);
 shufflePhotoGame();
 window.addEventListener("resize", updateMountain());
 
